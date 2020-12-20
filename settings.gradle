@@ -1,3 +1,4 @@
 include ':CoreApi'
+include ':feature'
 include ':app'
 rootProject.name = "GitHub Api"

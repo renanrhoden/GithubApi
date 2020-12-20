@@ -1,0 +1,7 @@
+dependencies {
+    def koin_version = '2.2.1'
+
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+}
