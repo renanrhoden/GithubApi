@@ -6,6 +6,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.renanrhoden.feature.databinding.ListItemBinding
 import com.renanrhoden.model.GithubRepo
 
@@ -44,6 +45,10 @@ class ListingReposAdapter(context: Context) :
             } else {
                 binding.separtor.visibility = VISIBLE
             }
+            Glide.with(binding.authorPhoto)
+                .load(repo.authorPhotoUrl)
+                .centerCrop()
+                .into(binding.authorPhoto)
         }
     }
 }
