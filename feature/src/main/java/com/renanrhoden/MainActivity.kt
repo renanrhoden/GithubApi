@@ -1,7 +1,8 @@
-package com.renanrhoden.githubapi
+package com.renanrhoden
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.renanrhoden.feature.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
