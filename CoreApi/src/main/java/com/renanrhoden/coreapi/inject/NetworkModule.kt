@@ -2,6 +2,7 @@ package com.renanrhoden.coreapi.inject
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,7 +21,7 @@ val networkModule = module {
         Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(getProperty("baseUrl"))
+            .baseUrl(get<String>(named("baseUrl")))
             .client(get())
             .build()
     }
