@@ -12,6 +12,8 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
     ViewModel() {
 
     val repos = MutableLiveData<List<GithubRepo>>()
+    private val initialPageValue = 1
+    private var page = initialPageValue
 
     fun setup() {
 
@@ -79,5 +81,20 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
 //                )
 //            )
 //        }, 2000)
+    }
+
+    fun loadNextRespos() {
+        page++
+        viewModelScope.launch {
+            try {
+                val result = useCase(page)
+//                val actualList = repos.value?.toMutableList()
+//                actualList?.addAll(result)
+                repos.postValue(repos.value?.toMutableList()?.apply { addAll(result) })
+                Log.i("resultado", result.toString())
+            } catch (e: Exception) {
+
+            }
+        }
     }
 }

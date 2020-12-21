@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import com.renanrhoden.commons.RecyclerViewEndlessScroll
 import com.renanrhoden.feature.databinding.ListingReposFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -15,6 +15,11 @@ class ListingFragment : Fragment() {
     private lateinit var binding: ListingReposFragmentBinding
     private val adapter: ListingReposAdapter by lazy {
         ListingReposAdapter(requireActivity())
+    }
+    private val endlessScrollListener by lazy {
+        RecyclerViewEndlessScroll() {
+            viewModel.loadNextRespos()
+        }
     }
 
     override fun onCreateView(
@@ -34,6 +39,12 @@ class ListingFragment : Fragment() {
             adapter.list = it.toMutableList()
         })
         viewModel.setup()
+        binding.recycler.addOnScrollListener(endlessScrollListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.recycler.removeOnScrollListener(endlessScrollListener)
     }
 
 }
