@@ -51,7 +51,7 @@ class ListingFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.repos.observe(viewLifecycleOwner, {
-            adapter.list = it.toMutableList()
+            adapter.updateItems(it)
         })
         viewModel.onErrorEvent.observe(viewLifecycleOwner, Observer {
             Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.renanrhoden.domain.model.GithubRepo
@@ -13,11 +14,7 @@ import com.renanrhoden.feature.databinding.ListItemBinding
 class ListingReposAdapter(context: Context) :
     RecyclerView.Adapter<ListingReposAdapter.ViewHolder>() {
 
-    var list = mutableListOf<GithubRepo>()
-        set(value) {
-            field = value
-            notifyItemRangeChanged(0, value.size)
-        }
+    private var list = mutableListOf<GithubRepo>()
 
     private val inflater = LayoutInflater.from(context)
 
@@ -32,6 +29,13 @@ class ListingReposAdapter(context: Context) :
 
     override fun getItemCount() = list.size
 
+    fun updateItems(newItems: List<GithubRepo>) {
+        val diffResult = DiffUtil.calculateDiff(
+            HeroListingDiffCallback(list, newItems)
+        )
+        diffResult.dispatchUpdatesTo(this)
+        list = newItems.toMutableList()
+    }
 
     class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
