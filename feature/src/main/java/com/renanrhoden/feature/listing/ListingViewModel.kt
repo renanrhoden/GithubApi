@@ -16,6 +16,7 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
     val repos = MutableLiveData<List<GithubRepo>>()
     private val initialPageValue = 1
     private var page = initialPageValue
+    val isLoading = MutableLiveData(false)
 
     fun setup() {
         viewModelScope.launch {
@@ -24,70 +25,17 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
                 repos.postValue(result)
             }, ::onError)
         }
-//        Handler().postDelayed({
-//            repos.postValue(
-//                listOf(
-//                    GithubRepo(
-//                        "Repo name 1",
-//                        "author name 1",
-//                        1,
-//                        1,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 2",
-//                        "author name 2",
-//                        2,
-//                        2,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 3",
-//                        "author name 3",
-//                        3,
-//                        3,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 4",
-//                        "author name 4",
-//                        4,
-//                        4,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 5",
-//                        "author name 5",
-//                        5,
-//                        5,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 6",
-//                        "author name 6",
-//                        6,
-//                        6,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                    GithubRepo(
-//                        "Repo name 7",
-//                        "author name 7",
-//                        76,
-//                        7,
-//                        "https://cdn0.iconfinder.com/data/icons/customicondesignoffice5/256/examples.png"
-//                    ),
-//                )
-//            )
-//        }, 2000)
     }
 
     fun loadNextRespos() {
         page++
         viewModelScope.launch {
+            isLoading.postValue(true)
             safeRun({
                 val result = useCase(page)
                 repos.postValue(repos.value?.toMutableList()?.apply { addAll(result) })
             }, ::onError)
+            isLoading.postValue(false)
         }
     }
 
