@@ -1,30 +1,28 @@
 package com.renanrhoden.feature.listing
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.renanrhoden.commons.OnError
+import com.renanrhoden.commons.OnErrorImpl
+import com.renanrhoden.coreapi.util.safeRun
 import com.renanrhoden.domain.model.GithubRepo
 import com.renanrhoden.usecase.GetKotlinRepositoriesSortedByStarsUseCase
 import kotlinx.coroutines.launch
 
 class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUseCase) :
-    ViewModel() {
+    ViewModel(), OnError by OnErrorImpl() {
 
     val repos = MutableLiveData<List<GithubRepo>>()
     private val initialPageValue = 1
     private var page = initialPageValue
 
     fun setup() {
-
         viewModelScope.launch {
-            try {
-                val result = useCase(1)
+            safeRun({
+                val result = useCase(page)
                 repos.postValue(result)
-                Log.i("resultado", result.toString())
-            } catch (e: Exception) {
-
-            }
+            }, ::onError)
         }
 //        Handler().postDelayed({
 //            repos.postValue(
@@ -86,15 +84,11 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
     fun loadNextRespos() {
         page++
         viewModelScope.launch {
-            try {
+            safeRun({
                 val result = useCase(page)
-//                val actualList = repos.value?.toMutableList()
-//                actualList?.addAll(result)
                 repos.postValue(repos.value?.toMutableList()?.apply { addAll(result) })
-                Log.i("resultado", result.toString())
-            } catch (e: Exception) {
-
-            }
+            }, ::onError)
         }
     }
+
 }
