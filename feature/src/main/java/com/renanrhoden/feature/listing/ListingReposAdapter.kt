@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.renanrhoden.feature.databinding.ListItemBinding
-import com.renanrhoden.model.GithubRepo
+import com.renanrhoden.domain.model.GithubRepo
 
 class ListingReposAdapter(context: Context) :
     RecyclerView.Adapter<ListingReposAdapter.ViewHolder>() {

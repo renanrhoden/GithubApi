@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.renanrhoden.model.GithubRepo
+import com.renanrhoden.domain.model.GithubRepo
 import com.renanrhoden.usecase.GetKotlinRepositoriesSortedByStarsUseCase
 import kotlinx.coroutines.launch
 import java.lang.Exception

@@ -1,4 +1,4 @@
-package com.renanrhoden.model
+package com.renanrhoden.domain.model
 
 data class GithubRepo(
     var repoName: String,
