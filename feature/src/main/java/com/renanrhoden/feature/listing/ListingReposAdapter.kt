@@ -37,6 +37,8 @@ class ListingReposAdapter(context: Context) :
         list = newItems.toMutableList()
     }
 
+    fun hasItems() = list.size > 0
+
     class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(repo: GithubRepo, isLast: Boolean) {

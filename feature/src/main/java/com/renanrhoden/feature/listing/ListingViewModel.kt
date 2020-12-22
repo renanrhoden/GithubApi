@@ -20,14 +20,16 @@ class ListingViewModel(private val useCase: GetKotlinRepositoriesSortedByStarsUs
 
     fun setup() {
         viewModelScope.launch {
+            isLoading.postValue(true)
             safeRun({
                 val result = useCase(page)
                 repos.postValue(result)
             }, ::onError)
+            isLoading.postValue(false)
         }
     }
 
-    fun loadNextRespos() {
+    fun loadNextRepos() {
         page++
         viewModelScope.launch {
             isLoading.postValue(true)
